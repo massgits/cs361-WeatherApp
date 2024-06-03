@@ -1,44 +1,98 @@
 import tkinter as tk
+from tkinter import font as tkfont
 import requests
 
 class WeatherDashboard(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Weather Dashboard")
-        
-        # information button
-        self.info_button = tk.Button(self, text="i", command=self.show_info)
-        self.info_button.grid(row=0, column=0, padx=10, pady=10, sticky="nw")
-        
-        # label for entry field
-        self.location_label = tk.Label(self, text="Enter City Name:")
-        self.location_label.grid(row=1, column=0, padx=10, pady=10, sticky = "w")
+        self.geometry("400x300")
+        self.center_window()
 
-        # entry field
-        self.location_entry = tk.Entry(self)
-        self.location_entry.grid(row=1, column=1, padx=10, pady=10, sticky = "ew")
+        self.default_font = tkfont.Font(family="Helvetica", size=12)
+        self.bold_font = tkfont.Font(family="Helvetica", size=12, weight="bold")
 
-        # submit button
-        self.fetch_button = tk.Button(self, text="Get Weather Info", command=self.get_weather)
-        self.fetch_button.grid(row=2, column=1, padx=10, pady=5, sticky = "w")
+        # Frame for location entry
+        self.location_frame = tk.Frame(self)
+        self.location_frame.grid(row=0, column=0, padx=20, pady=20, sticky="ew")
 
-        self.result_label = tk.Label(self, text="")
-        self.result_label.grid(row=4, column=0, padx=5, pady=5, sticky = "")
+        # Information button
+        self.info_button = tk.Button(self.location_frame, text="i", command=self.show_info)
+        self.info_button.grid(row=0, column=2, padx=10, sticky="e")
 
+        # Label for entry field
+        self.location_label = tk.Label(self.location_frame, text="Enter City Name:", font=self.default_font)
+        self.location_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
+        # Entry field
+        self.location_entry = tk.Entry(self.location_frame, font=self.default_font)
+        self.location_entry.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+        self.location_entry.bind("<Return>", self.get_weather)
 
-    def get_weather(self):
+        # Submit button
+        self.fetch_button = tk.Button(self.location_frame, text="Get Weather Info", command=self.get_weather, font=self.bold_font)
+        self.fetch_button.grid(row=1, column=1, padx=10, pady=5, sticky="e")
+
+        # Frame for result display
+        self.result_frame = tk.Frame(self)
+        self.result_frame.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
+
+        self.result_label = tk.Label(self.result_frame, text="", font=self.default_font, justify="left")
+        self.result_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+
+        # Configure grid weights
+        self.grid_columnconfigure(0, weight=1)
+        self.location_frame.grid_columnconfigure(1, weight=1)
+        self.result_frame.grid_columnconfigure(0, weight=1)
+
+        # Set focus to the entry field
+        self.location_entry.focus_set()
+
+    def center_window(self):
+        self.update_idletasks()
+        width = self.winfo_width()
+        height = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.winfo_screenheight() // 2) - (height // 2)
+        self.geometry(f'{width}x{height}+{x}+{y}')
+
+    def get_weather(self, event=None):
         location = self.location_entry.get()
         if location:
-            # fetch data from microservices
-            weather_data = self.fetch_microservice_data("http://localhost:6787/weather", location)
-            forecast_data = self.fetch_microservice_data("http://localhost:6788/description", location)
+            # Initialize variables to store results
+            current_temperature = "N/A"
+            weather_description = "N/A"
+            humidity = "N/A"
+            wind = "N/A"
 
-            current_temperature = weather_data.get("Temperature", "N/A")
-            weather_description = forecast_data.get("Description", "N/A")
+            # Fetch data from each microservice, handling failures individually
+            try:
+                weather_data = self.fetch_microservice_data("http://localhost:6787/weather", location)
+                current_temperature = weather_data.get("Temperature", "N/A")
+            except Exception as e:
+                print(f"Failed to fetch weather data: {e}")
 
-            # display data with labels
-            self.result_label.config(text=f"Current Temperature: {current_temperature}\nWeather Description: {weather_description}")
+            try:
+                forecast_data = self.fetch_microservice_data("http://localhost:6788/description", location)
+                weather_description = forecast_data.get("Description", "N/A")
+            except Exception as e:
+                print(f"Failed to fetch forecast data: {e}")
+
+            try:
+                humidity_data = self.fetch_microservice_data("http://localhost:6789/humidity", location)
+                humidity = humidity_data.get("Humidity", "N/A")
+            except Exception as e:
+                print(f"Failed to fetch humidity data: {e}")
+
+            try:
+                wind_data = self.fetch_microservice_data("http://localhost:6790/wind", location)
+                wind = wind_data.get("Wind Speed", "N/A")
+            except Exception as e:
+                print(f"Failed to fetch wind data: {e}")
+
+            # Display data with labels
+            self.result_label.config(
+                text=f"Current Temperature: {current_temperature}\nWeather Description: {weather_description}\nHumidity: {humidity}\nWind Speed: {wind}")
 
     def fetch_microservice_data(self, url, location):
         response = requests.get(url, params={"location": location})
