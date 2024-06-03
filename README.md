@@ -1,2 +1,2 @@
 # cs361-WeatherApp
-A weather app implementation demonstrating understanding of a microservices architecture.
+A weather app demonstrating understanding of microservices architecture implementation.
