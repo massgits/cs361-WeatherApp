@@ -10,15 +10,15 @@ The purpose of this project is to illustrate functional understanding of microse
 - While the domain (weather reporting) is simple, the design mirrors real-world distributed systems where independent components collaborate to provide a complete solution.
 
 # Tech Stack
-Languages: Python 3
-Libraries/Frameworks: Flask, Requests, Tkinter, ttk (themed widgets), python-dotenv
-APIs/Services: OpenWeather API (current weather + forecast)
+- Languages: Python 3
+- Libraries/Frameworks: Flask, Requests, Tkinter, ttk (themed widgets), python-dotenv
+- APIs/Services: OpenWeather API (current weather + forecast)
 
 # How to Run
 **1) Create & activate a virtual environment**
-python3 -m venv .venv
-source .venv/bin/activate   # macOS/Linux
-.venv\Scripts\Activate.ps1  # Windows PowerShell
+- python3 -m venv .venv
+- source .venv/bin/activate   # macOS/Linux
+- .venv\Scripts\Activate.ps1  # Windows PowerShell
 
 **2) Install dependencies**
 pip3 install flask requests python-dotenv
@@ -27,13 +27,13 @@ pip3 install flask requests python-dotenv
 echo "OPENWEATHER_API_KEY=your_real_key_here" > .env
 
 **4) Start each microservice in its own terminal**
-python3 tempAPI.py         # http://127.0.0.1:6787/weather
-python3 descriptionAPI.py  # http://127.0.0.1:6788/description
-python3 humidityAPI.py     # http://127.0.0.1:6789/humidity
-python3 windAPI.py         # http://127.0.0.1:6790/wind
+- python3 tempAPI.py
+- python3 descriptionAPI.py
+- python3 humidityAPI.py
+- python3 windAPI.py
 
 **5) Launch the GUI app**
-python3 weatherApp.py
+- python3 weatherApp.py
 
 # Features
 - Tkinter GUI with modern ttk styling
