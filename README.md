@@ -4,10 +4,10 @@ A simple project demonstrating microservices architecture through a weather dash
 # Objectives
 The purpose of this project is to illustrate functional understanding of microservices:
 
--Build small, independent services for specific tasks.
--Orchestrate those services in a desktop GUI client.
--Handle user input, validation, service communication, and error recovery cleanly.
--While the domain (weather reporting) is simple, the design mirrors real-world distributed systems where independent components collaborate to provide a complete solution.
+- Build small, independent services for specific tasks.
+- Orchestrate those services in a desktop GUI client.
+- Handle user input, validation, service communication, and error recovery cleanly.
+- While the domain (weather reporting) is simple, the design mirrors real-world distributed systems where independent components collaborate to provide a complete solution.
 
 # Tech Stack
 Languages: Python 3
@@ -35,23 +35,23 @@ python3 windAPI.py         # http://127.0.0.1:6790/wind
 **5) Launch the GUI app**
 python3 weatherApp.py
 
-**Features**
--Tkinter GUI with modern ttk styling
--Placeholder entry that clears on focus and restores if empty
--Input validation (letters, numbers, spaces, commas, periods, apostrophes, dashes; 1–80 chars)
--Spinner (loading animation) while fetching data
--Background thread for network requests (UI never freezes)
+# Features
+- Tkinter GUI with modern ttk styling
+- Placeholder entry that clears on focus and restores if empty
+- Input validation (letters, numbers, spaces, commas, periods, apostrophes, dashes; 1–80 chars)
+- Spinner (loading animation) while fetching data
+- Background thread for network requests (UI never freezes)
 
-**Microservices:**
--Temperature (°F)
--Weather description (e.g., “clear sky”)
--Humidity (%)
--Wind speed
+# Microservices:
+- Temperature (°F)
+- Weather description (e.g., “clear sky”)
+- Humidity (%)
+- Wind speed
 
-**Learning Takeaways**
+# Learning Takeaways
 This project was built to show practical understanding of microservices:
 
--Service isolation: each weather attribute runs as its own Flask service.
--Orchestration: a Tkinter GUI acts as a lightweight client to call multiple services.
--Resilience: input validation, error handling, and timeouts ensure the system fails gracefully.
--Security hygiene: API keys externalized, no secrets in code, and HTTPS enforced.
+- Service isolation: each weather attribute runs as its own Flask service.
+- Orchestration: a Tkinter GUI acts as a lightweight client to call multiple services.
+- Resilience: input validation, error handling, and timeouts ensure the system fails gracefully.
+- Security hygiene: API keys externalized, no secrets in code, and HTTPS enforced.
