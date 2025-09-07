@@ -1,11 +1,11 @@
 # Weather Dashboard
-A simple project demonstrating microservices architecture through a weather dashboard. The app separates concerns into distinct Flask services (temperature, description, humidity, wind), each independently exposing an endpoint, and integrates them into a Tkinter GUI. This structure showcases how lightweight services can work together to form a cohesive application.
+A simple project demonstrating a microservices architecture through a weather dashboard. The app separates concerns into distinct Flask services (temperature, description, humidity, wind), each independently exposing an endpoint, and integrates them into a Tkinter GUI. This structure showcases modularity for efficient mantainability and scalablity.
 
 # Objectives
 The purpose of this project is to illustrate functional understanding of microservices:
 
 - Build small, independent services for specific tasks.
-- Orchestrate those services in a desktop GUI client.
+- Integrate those services in a desktop GUI client.
 - Handle user input, validation, service communication, and error recovery cleanly.
 - While the domain (weather reporting) is simple, the design mirrors real-world distributed systems where independent components collaborate to provide a complete solution.
 
